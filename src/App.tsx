@@ -58,7 +58,7 @@ export default function App() {
     }
   }, [darkMode]);
 
-  // 4. Load Box Office Data from Local Proxy API
+  // 4. Load Box Office Data from Local Proxy API (with Direct Client Fallback for Vercel/Static Environments)
   useEffect(() => {
     const fetchBoxOffice = async () => {
       setLoading(true);
@@ -68,12 +68,31 @@ export default function App() {
       const targetDt = date.replace(/-/g, "");
       
       try {
-        const response = await fetch(`/api/boxoffice?targetDt=${targetDt}`);
-        if (!response.ok) {
-          throw new Error("서버와의 통신에 실패했습니다.");
-        }
+        let data: BoxOfficeResponse;
         
-        const data: BoxOfficeResponse = await response.json();
+        try {
+          // 1. Try local proxy API
+          const response = await fetch(`/api/boxoffice?targetDt=${targetDt}`);
+          if (!response.ok) {
+            throw new Error("Proxy response not OK");
+          }
+          data = await response.json();
+          if (!data || !data.boxOfficeResult) {
+            throw new Error("Invalid structure returned from proxy");
+          }
+        } catch (proxyErr) {
+          console.warn("Express API proxy failed or returned 404 (common in static environments like Vercel). Falling back to direct KOBIS OpenAPI call:", proxyErr);
+          
+          // 2. Fallback: Direct call to KOBIS OpenAPI with default open API key
+          const defaultKobisKey = "eb0be4777cca45c4a4721184703294f6";
+          const directUrl = `https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${defaultKobisKey}&targetDt=${targetDt}`;
+          
+          const directRes = await fetch(directUrl);
+          if (!directRes.ok) {
+            throw new Error("영화진흥위원회 OpenAPI 직접 연결에 실패했습니다.");
+          }
+          data = await directRes.json();
+        }
         
         if (data.boxOfficeResult?.dailyBoxOfficeList) {
           setMovieList(data.boxOfficeResult.dailyBoxOfficeList);

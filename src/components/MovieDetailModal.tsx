@@ -48,23 +48,63 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
       .filter(Boolean);
 
     try {
-      const response = await fetch("/api/generate-review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          movieNm: movie.movieNm,
-          genres: movie.genres?.map(g => g.genreNm).join(", ") || "",
-          keywords: activeKeywords,
-        }),
-      });
+      let data;
+      try {
+        // 1. Try local proxy API
+        const response = await fetch("/api/generate-review", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            movieNm: movie.movieNm,
+            genres: movie.genres?.map(g => g.genreNm).join(", ") || "",
+            keywords: activeKeywords,
+          }),
+        });
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || "감상평 생성에 실패했습니다.");
+        if (!response.ok) {
+          throw new Error("Proxy response not OK or endpoint not found");
+        }
+
+        data = await response.json();
+        setReviewResult(data.review);
+      } catch (proxyErr) {
+        console.warn("Express API proxy failed or returned 404 (common in static environments like Vercel). Falling back to direct client-side Gemini request:", proxyErr);
+        
+        // 2. Fallback: Direct call to Google’s Gemini REST API using VITE_GEMINI_API_KEY
+        const geminiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || "";
+        if (!geminiKey) {
+          throw new Error("Vercel 환경 배포 상태에서 AI 감상평 생성기를 작동하려면 Vercel 빌드 설정 혹은 환경설정(Environment Variables)에 'VITE_GEMINI_API_KEY' 변수 값을 추가해주셔야 합니다.");
+        }
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`;
+        const userPrompt = `영화 "${movie.movieNm}" (장르: ${movie.genres?.map(g => g.genreNm).join(", ") || "알수없음"})에 대한 감상평을 작성해줘. 
+꼭 포함해야 할 3가지 키워드: [${activeKeywords.join(", ")}].
+이 키워드들을 자연스럽게 녹여내서 독창적이고 마음에 와닿는 감상평을 3~4문장 분량의 한국어로 정성스럽게 작성해줘. 
+문맥이 자연스럽고 영화 매니아처럼 성설하고 매력 넘치게 적어줘.`;
+
+        const directRes = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: userPrompt }] }],
+            generationConfig: {
+              temperature: 0.8,
+            }
+          })
+        });
+
+        if (!directRes.ok) {
+          throw new Error("Gemini OpenAPI 직접 호출에 실패했습니다. 설정된 VITE_GEMINI_API_KEY 가 올바른지 확인해 주세요.");
+        }
+
+        const directData = await directRes.json();
+        const textResult = directData.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (textResult) {
+          setReviewResult(textResult);
+        } else {
+          throw new Error("Gemini AI가 빈 응답을 반환했습니다.");
+        }
       }
-
-      const data = await response.json();
-      setReviewResult(data.review);
     } catch (err: any) {
       console.error(err);
       setGenError(err.message || "감상평을 생성하는 도중 오류가 발생했습니다.");
@@ -87,11 +127,31 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/movieinfo?movieCd=${movieCd}`);
-        if (!response.ok) {
-          throw new Error("영화 상세 정보를 가져오는 데 실패했습니다.");
+        let data: MovieInfoResponse;
+        
+        try {
+          // 1. Try local proxy API
+          const response = await fetch(`/api/movieinfo?movieCd=${movieCd}`);
+          if (!response.ok) {
+            throw new Error("Proxy response not OK");
+          }
+          data = await response.json();
+          if (!data || !data.movieInfoResult) {
+            throw new Error("Invalid structure returned from proxy");
+          }
+        } catch (proxyErr) {
+          console.warn("Express API proxy failed or returned 404 (common in static environments like Vercel). Falling back to direct KOBIS OpenAPI call:", proxyErr);
+          
+          // 2. Fallback: Direct call to KOBIS OpenAPI with default open API key
+          const defaultKobisKey = "eb0be4777cca45c4a4721184703294f6";
+          const directUrl = `https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=${defaultKobisKey}&movieCd=${movieCd}`;
+          
+          const directRes = await fetch(directUrl);
+          if (!directRes.ok) {
+            throw new Error("영화진흥위원회 OpenAPI 직접 연결에 실패했습니다.");
+          }
+          data = await directRes.json();
         }
-        const data: MovieInfoResponse = await response.json();
         
         if (data.movieInfoResult?.movieInfo) {
           setMovie(data.movieInfoResult.movieInfo);
