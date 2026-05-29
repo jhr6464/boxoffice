@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MovieInfo, MovieInfoResponse } from "../types";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Clock, Globe, Calendar, Award, Palette, User, Building, Users } from "lucide-react";
+import { X, Clock, Globe, Calendar, Award, Palette, User, Building, Users, Sparkles, Copy, Check, MessageSquare, RefreshCw } from "lucide-react";
 
 interface MovieDetailModalProps {
   movieCd: string | null;
@@ -12,6 +12,73 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState<MovieInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // AI Review Generator states
+  const [keyword1, setKeyword1] = useState("");
+  const [keyword2, setKeyword2] = useState("");
+  const [keyword3, setKeyword3] = useState("");
+  const [generating, setGenerating] = useState(false);
+  const [reviewResult, setReviewResult] = useState<string | null>(null);
+  const [genError, setGenError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    // Reset inputs and results when film changes or modal reopens
+    setKeyword1("");
+    setKeyword2("");
+    setKeyword3("");
+    setReviewResult(null);
+    setGenError(null);
+    setCopied(false);
+  }, [movieCd]);
+
+  const handleGenerateReview = async () => {
+    if (!movie) return;
+    if (!keyword1.trim() && !keyword2.trim() && !keyword3.trim()) {
+      setGenError("최소 하나 이상의 키워드를 입력해 주세요.");
+      return;
+    }
+
+    setGenerating(true);
+    setGenError(null);
+    setReviewResult(null);
+
+    const activeKeywords = [keyword1, keyword2, keyword3]
+      .map(k => k.trim())
+      .filter(Boolean);
+
+    try {
+      const response = await fetch("/api/generate-review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          movieNm: movie.movieNm,
+          genres: movie.genres?.map(g => g.genreNm).join(", ") || "",
+          keywords: activeKeywords,
+        }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "감상평 생성에 실패했습니다.");
+      }
+
+      const data = await response.json();
+      setReviewResult(data.review);
+    } catch (err: any) {
+      console.error(err);
+      setGenError(err.message || "감상평을 생성하는 도중 오류가 발생했습니다.");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleCopyReview = () => {
+    if (!reviewResult) return;
+    navigator.clipboard.writeText(reviewResult);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     if (!movieCd) return;
@@ -292,6 +359,130 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
                   ) : (
                     <p className="text-sm text-gray-500 dark:text-white/40">등록된 기업 정보가 없습니다.</p>
                   )}
+                </div>
+
+                {/* AI Review Generator Section */}
+                <div className="bg-gradient-to-br from-suit-rose-light/[0.12] to-suit-lavender/[0.15] dark:from-suit-plum/70 dark:to-suit-plum/45 p-5 rounded-2xl border border-suit-rose-light/25 dark:border-suit-cyan/15 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-suit-pink-white flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-suit-rose-medium dark:text-suit-cyan" />
+                      AI 키워드 감상평 생성기
+                    </h3>
+                    <span className="text-[10px] font-mono text-suit-rose-medium dark:text-suit-cyan/70 font-semibold uppercase bg-suit-rose-light/20 dark:bg-suit-cyan/10 px-2 py-0.5 rounded-full border border-suit-rose-light/30 dark:border-suit-cyan/20">
+                      Powered by Gemini
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-gray-500 dark:text-suit-lavender/60">
+                    영화의 분위기나 느낌에 어울리는 대표 키워드 3개를 입력하시면, 인공지능 평론가가 자연스럽게 녹아든 맞춤 감상평을 작성해 드립니다.
+                  </p>
+
+                  {/* 3 Input Fields Grid */}
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        maxLength={10}
+                        placeholder="키워드 1 (예: 감동)"
+                        value={keyword1}
+                        onChange={(e) => setKeyword1(e.target.value)}
+                        className="w-full text-xs px-3 py-2 bg-white dark:bg-suit-plum/60 text-gray-900 dark:text-neutral-200 border border-gray-200 dark:border-white/5 rounded-xl focus:outline-none focus:ring-1 focus:ring-suit-rose-medium/50 dark:focus:ring-suit-cyan/50 focus:border-suit-rose-medium dark:focus:border-suit-cyan transition-all"
+                      />
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        maxLength={10}
+                        placeholder="키워드 2 (예: 눈물)"
+                        value={keyword2}
+                        onChange={(e) => setKeyword2(e.target.value)}
+                        className="w-full text-xs px-3 py-2 bg-white dark:bg-suit-plum/60 text-gray-900 dark:text-neutral-200 border border-gray-200 dark:border-white/5 rounded-xl focus:outline-none focus:ring-1 focus:ring-suit-rose-medium/50 dark:focus:ring-suit-cyan/50 focus:border-suit-rose-medium dark:focus:border-suit-cyan transition-all"
+                      />
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        maxLength={10}
+                        placeholder="키워드 3 (예: 인생작)"
+                        value={keyword3}
+                        onChange={(e) => setKeyword3(e.target.value)}
+                        className="w-full text-xs px-3 py-2 bg-white dark:bg-suit-plum/60 text-gray-900 dark:text-neutral-200 border border-gray-200 dark:border-white/5 rounded-xl focus:outline-none focus:ring-1 focus:ring-suit-rose-medium/50 dark:focus:ring-suit-cyan/50 focus:border-suit-rose-medium dark:focus:border-suit-cyan transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Generate Button */}
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={handleGenerateReview}
+                      disabled={generating || (!keyword1.trim() && !keyword2.trim() && !keyword3.trim())}
+                      className={`px-4 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all duration-200 cursor-pointer ${
+                        generating 
+                          ? "bg-gray-200 dark:bg-suit-plum/80 text-gray-400 cursor-wait"
+                          : (!keyword1.trim() && !keyword2.trim() && !keyword3.trim())
+                          ? "bg-gray-100 dark:bg-suit-plum/30 text-gray-400 cursor-not-allowed border border-dashed border-gray-200 dark:border-white/5"
+                          : "bg-suit-rose-medium text-suit-plum hover:bg-suit-rose-medium/90 dark:bg-suit-cyan dark:text-suit-plum dark:hover:bg-suit-cyan/90 shadow-sm hover:shadow active:scale-95"
+                      }`}
+                    >
+                      {generating ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          감상평 생성 중...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5" />
+                          AI 감상평 생성
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Gen Error Indicator */}
+                  {genError && (
+                    <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 rounded-xl text-red-600 dark:text-red-400 text-xs text-center">
+                      {genError}
+                    </div>
+                  )}
+
+                  {/* Result Showcase Card */}
+                  <AnimatePresence>
+                    {reviewResult && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="p-4 bg-white/75 dark:bg-suit-plum/40 border border-suit-rose-light/30 dark:border-suit-cyan/15 rounded-xl shadow-inner relative flex flex-col gap-3 group/card"
+                      >
+                        <div className="flex items-start gap-3">
+                          <MessageSquare className="w-5 h-5 text-suit-rose-medium/60 dark:text-suit-cyan/60 flex-shrink-0 mt-0.5" />
+                          <div className="text-xs sm:text-sm text-gray-800 dark:text-suit-pink-white/95 leading-relaxed font-sans font-medium whitespace-pre-wrap">
+                            "{reviewResult}"
+                          </div>
+                        </div>
+
+                        {/* Copy button */}
+                        <div className="flex justify-end pt-1">
+                          <button
+                            onClick={handleCopyReview}
+                            className="text-[11px] font-semibold text-suit-rose-medium dark:text-suit-cyan hover:opacity-80 flex items-center gap-1 cursor-pointer bg-suit-rose-light/20 dark:bg-suit-cyan/10 px-2.5 py-1 rounded-lg border border-suit-rose-light/30 dark:border-suit-cyan/20 duration-200 active:scale-95"
+                          >
+                            {copied ? (
+                              <>
+                                <Check className="w-3 h-3" />
+                                복사 완료!
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3" />
+                                감상평 복사하기
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
               </div>
