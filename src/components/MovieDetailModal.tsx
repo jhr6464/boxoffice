@@ -87,11 +87,11 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
 
         {/* Modal Dialog Body */}
         <motion.div
-          initial={{ y: 50, opacity: 0, scale: 0.95 }}
-          animate={{ y: 0, opacity: 1, scale: 1 }}
-          exit={{ y: 50, opacity: 0, scale: 0.95 }}
-          transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
-          className="relative w-full max-w-3xl bg-white dark:bg-cinema-gray rounded-2xl border border-gray-150 dark:border-white/5 shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]"
+           initial={{ y: 50, opacity: 0, scale: 0.95 }}
+           animate={{ y: 0, opacity: 1, scale: 1 }}
+           exit={{ y: 50, opacity: 0, scale: 0.95 }}
+           transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
+           className="relative w-full max-w-3xl bg-white dark:bg-suit-plum rounded-2xl border border-gray-150 dark:border-white/5 shadow-2xl overflow-hidden z-10 flex flex-col max-h-[90vh]"
         >
           {/* Close button inside modal wrapper */}
           <button
@@ -141,14 +141,14 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
               <div className="space-y-6 animate-pulse py-4">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[...Array(4)].map((_, i) => (
-                    <div key={i} className="h-14 bg-gray-100 dark:bg-cinema-card rounded-xl"></div>
+                    <div key={i} className="h-14 bg-gray-100 dark:bg-suit-plum/40 rounded-xl"></div>
                   ))}
                 </div>
-                <div className="h-4 bg-gray-105 dark:bg-cinema-card rounded-md w-1/4"></div>
+                <div className="h-4 bg-gray-105 dark:bg-suit-plum/40 rounded-md w-1/4"></div>
                 <div className="space-y-2">
-                  <div className="h-16 bg-gray-100 dark:bg-cinema-card rounded-xl"></div>
-                  <div className="h-16 bg-gray-100 dark:bg-cinema-card rounded-xl"></div>
-                  <div className="h-16 bg-gray-100 dark:bg-cinema-card rounded-xl"></div>
+                  <div className="h-16 bg-gray-100 dark:bg-suit-plum/40 rounded-xl"></div>
+                  <div className="h-16 bg-gray-100 dark:bg-suit-plum/40 rounded-xl"></div>
+                  <div className="h-16 bg-gray-100 dark:bg-suit-plum/40 rounded-xl"></div>
                 </div>
               </div>
             ) : error ? (
@@ -159,7 +159,7 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
                 <button
                   id="error-close-modal"
                   onClick={onClose}
-                  className="mt-4 px-4 py-2 bg-gold-accent text-black font-semibold text-sm rounded-lg hover:bg-gold-hover transition-colors"
+                  className="mt-4 px-4 py-2 bg-suit-rose-medium dark:bg-suit-cyan text-suit-plum font-semibold text-sm rounded-lg hover:opacity-90 transition-colors cursor-pointer"
                 >
                   확인
                 </button>
@@ -172,19 +172,19 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   
                   {/* Runtime */}
-                  <div className="bg-gray-50 dark:bg-cinema-card p-3 rounded-xl border border-gray-100 dark:border-white/5 flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-gold-accent" />
+                  <div className="bg-gray-50 dark:bg-suit-plum/40 p-3 rounded-xl border border-gray-100 dark:border-white/5 flex items-center gap-3">
+                    <Clock className="w-5 h-5 text-suit-rose-medium dark:text-suit-cyan" />
                     <div>
-                      <p className="text-[10px] text-gray-400 dark:text-white/30 uppercase font-mono font-semibold">상영 시간</p>
+                      <p className="text-[10px] text-gray-400 dark:text-suit-lavender/40 uppercase font-mono font-semibold">상영 시간</p>
                       <p className="text-sm font-bold text-gray-800 dark:text-neutral-200 mt-0.5">{movie.showTm ? `${movie.showTm}분` : "정보 없음"}</p>
                     </div>
                   </div>
 
                   {/* Open Date */}
-                  <div className="bg-gray-50 dark:bg-cinema-card p-3 rounded-xl border border-gray-100 dark:border-white/5 flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-gold-accent" />
+                  <div className="bg-gray-50 dark:bg-suit-plum/40 p-3 rounded-xl border border-gray-100 dark:border-white/5 flex items-center gap-3">
+                    <Calendar className="w-5 h-5 text-suit-rose-medium dark:text-suit-cyan" />
                     <div>
-                      <p className="text-[10px] text-gray-400 dark:text-white/30 uppercase font-mono font-semibold">개봉 연도</p>
+                      <p className="text-[10px] text-gray-400 dark:text-suit-lavender/40 uppercase font-mono font-semibold">개봉 연도</p>
                       <p className="text-sm font-bold text-gray-800 dark:text-neutral-200 mt-0.5">
                         {movie.openDt ? `${movie.openDt.substring(0, 4)}년` : `${movie.prdtYear}년`}
                       </p>
@@ -192,10 +192,10 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
                   </div>
 
                   {/* Nations */}
-                  <div className="bg-gray-50 dark:bg-cinema-card p-3 rounded-xl border border-gray-100 dark:border-white/5 flex items-center gap-3">
-                    <Globe className="w-5 h-5 text-gold-accent" />
+                  <div className="bg-gray-50 dark:bg-suit-plum/40 p-3 rounded-xl border border-gray-100 dark:border-white/5 flex items-center gap-3">
+                    <Globe className="w-5 h-5 text-suit-rose-medium dark:text-suit-cyan" />
                     <div>
-                      <p className="text-[10px] text-gray-400 dark:text-white/30 uppercase font-mono font-semibold">제작 국가</p>
+                      <p className="text-[10px] text-gray-400 dark:text-suit-lavender/40 uppercase font-mono font-semibold">제작 국가</p>
                       <p className="text-sm font-bold text-gray-800 dark:text-neutral-200 mt-0.5 truncate" title={movie.nations.map((n) => n.nationNm).join(", ")}>
                         {movie.nations.length > 0 ? movie.nations[0].nationNm : "정보 없음"}
                       </p>
@@ -203,10 +203,10 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
                   </div>
 
                   {/* Production Status */}
-                  <div className="bg-gray-50 dark:bg-cinema-card p-3 rounded-xl border border-gray-100 dark:border-white/5 flex items-center gap-3">
-                    <Award className="w-5 h-5 text-gold-accent" />
+                  <div className="bg-gray-50 dark:bg-suit-plum/40 p-3 rounded-xl border border-gray-150 dark:border-white/5 flex items-center gap-3">
+                    <Award className="w-5 h-5 text-suit-rose-medium dark:text-suit-cyan" />
                     <div>
-                      <p className="text-[10px] text-gray-400 dark:text-white/30 uppercase font-mono font-semibold">제작 분야</p>
+                      <p className="text-[10px] text-gray-400 dark:text-suit-lavender/40 uppercase font-mono font-semibold">제작 분야</p>
                       <p className="text-sm font-bold text-gray-800 dark:text-neutral-200 mt-0.5">{movie.typeNm || "장편영화"}</p>
                     </div>
                   </div>
@@ -215,13 +215,13 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
 
                 {/* Genres */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 dark:text-white/40 uppercase tracking-wider font-mono mb-2 flex items-center gap-1.5">
-                    <Palette className="w-4 h-4 text-gray-400 dark:text-white/30" /> 장르 카테고리
+                  <h3 className="text-xs font-semibold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-wider font-mono mb-2 flex items-center gap-1.5">
+                    <Palette className="w-4 h-4 text-gray-400 dark:text-suit-lavender/30" /> 장르 카테고리
                   </h3>
                   <div className="flex flex-wrap gap-1.5">
                     {movie.genres && movie.genres.length > 0 ? (
                       movie.genres.map((g, i) => (
-                        <span key={i} className="px-3 py-1 bg-gray-100 dark:bg-cinema-card text-gray-700 dark:text-white/70 rounded-lg text-xs font-medium border border-gray-250 dark:border-white/5">
+                        <span key={i} className="px-3 py-1 bg-gray-100 dark:bg-suit-plum/40 text-gray-700 dark:text-suit-pink-white/70 rounded-lg text-xs font-medium border border-gray-250 dark:border-white/5">
                           {g.genreNm}
                         </span>
                       ))
@@ -233,15 +233,15 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
 
                 {/* Directors */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 dark:text-white/40 uppercase tracking-wider font-mono mb-2.5 flex items-center gap-1.5 border-b border-gray-100 dark:border-white/5 pb-1.5">
-                    <User className="w-4 h-4 text-gray-400 dark:text-white/30" /> 감독 (Directors)
+                  <h3 className="text-xs font-semibold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-wider font-mono mb-2.5 flex items-center gap-1.5 border-b border-gray-100 dark:border-white/5 pb-1.5">
+                    <User className="w-4 h-4 text-gray-400 dark:text-suit-lavender/30" /> 감독 (Directors)
                   </h3>
                   {movie.directors && movie.directors.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {movie.directors.map((d, i) => (
-                        <div key={i} className="flex flex-col bg-gray-55 dark:bg-cinema-card px-4 py-2.5 rounded-lg border border-gray-100 dark:border-white/5">
-                          <span className="text-sm font-bold text-gray-900 dark:text-white/80">{d.peopleNm}</span>
-                          {d.peopleNmEn && <span className="text-xs text-gray-410 dark:text-white/30 font-mono italic mt-0.5">{d.peopleNmEn}</span>}
+                        <div key={i} className="flex flex-col bg-gray-55 dark:bg-suit-plum/45 px-4 py-2.5 rounded-lg border border-gray-100 dark:border-white/5">
+                          <span className="text-sm font-bold text-gray-900 dark:text-suit-pink-white/80">{d.peopleNm}</span>
+                          {d.peopleNmEn && <span className="text-xs text-gray-410 dark:text-suit-lavender/45 font-mono italic mt-0.5">{d.peopleNmEn}</span>}
                         </div>
                       ))}
                     </div>
@@ -252,18 +252,18 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
 
                 {/* Leading Actors */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 dark:text-white/40 uppercase tracking-wider font-mono mb-2.5 flex items-center gap-1.5 border-b border-gray-100 dark:border-white/5 pb-1.5">
-                    <Users className="w-4 h-4 text-gray-400 dark:text-white/30" /> 주요 출연 배우 (Actors)
+                  <h3 className="text-xs font-semibold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-wider font-mono mb-2.5 flex items-center gap-1.5 border-b border-gray-100 dark:border-white/5 pb-1.5">
+                    <Users className="w-4 h-4 text-gray-400 dark:text-suit-lavender/30" /> 주요 출연 배우 (Actors)
                   </h3>
                   {movie.actors && movie.actors.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 max-h-48 overflow-y-auto pr-1">
                       {movie.actors.slice(0, 12).map((a, i) => (
-                        <div key={i} className="bg-gray-50/30 dark:bg-cinema-card p-2 rounded-lg border border-gray-100 dark:border-white/5 text-xs">
-                          <p className="font-bold text-gray-900 dark:text-white/80 truncate">{a.peopleNm}</p>
+                        <div key={i} className="bg-gray-50/30 dark:bg-suit-plum/30 p-2 rounded-lg border border-gray-100 dark:border-white/5 text-xs">
+                          <p className="font-bold text-gray-900 dark:text-suit-pink-white/80 truncate">{a.peopleNm}</p>
                           {a.cast ? (
-                            <p className="text-gold-accent dark:text-gold-accent mt-0.5 font-bold truncate">역: {a.cast}</p>
+                            <p className="text-suit-rose-medium dark:text-suit-cyan mt-0.5 font-bold truncate font-sans">역: {a.cast}</p>
                           ) : (
-                            a.peopleNmEn && <p className="text-gray-400 dark:text-white/30 mt-0.5 truncate font-mono italic">{a.peopleNmEn}</p>
+                            a.peopleNmEn && <p className="text-gray-400 dark:text-suit-lavender/40 mt-0.5 truncate font-mono italic">{a.peopleNmEn}</p>
                           )}
                         </div>
                       ))}
@@ -275,15 +275,15 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
 
                 {/* Companies: Production & Distributors */}
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 dark:text-white/40 uppercase tracking-wider font-mono mb-2.5 flex items-center gap-1.5 border-b border-gray-100 dark:border-white/5 pb-1.5">
-                    <Building className="w-4 h-4 text-gray-400 dark:text-white/30" /> 참여 영화 기업 (Companies)
+                  <h3 className="text-xs font-semibold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-wider font-mono mb-2.5 flex items-center gap-1.5 border-b border-gray-100 dark:border-white/5 pb-1.5">
+                    <Building className="w-4 h-4 text-gray-400 dark:text-suit-lavender/30" /> 참여 영화 기업 (Companies)
                   </h3>
                   {movie.companys && movie.companys.length > 0 ? (
                     <div className="flex flex-wrap gap-2 text-xs">
                       {movie.companys.slice(0, 5).map((c, i) => (
-                        <div key={i} className="px-3 py-1.5 bg-gray-50/50 dark:bg-cinema-card rounded-lg border border-gray-150 dark:border-white/5">
-                          <span className="font-semibold text-gray-800 dark:text-white/80">{c.companyNm}</span>
-                          <span className="text-gray-400 dark:text-white/30 ml-1.5 text-[10px] bg-gray-100 dark:bg-cinema-gray px-1 py-0.5 rounded">
+                        <div key={i} className="px-3 py-1.5 bg-gray-50/50 dark:bg-suit-plum/40 rounded-lg border border-gray-150 dark:border-white/5">
+                          <span className="font-semibold text-gray-800 dark:text-suit-pink-white/80">{c.companyNm}</span>
+                          <span className="text-gray-400 dark:text-suit-lavender/30 ml-1.5 text-[10px] bg-gray-100 dark:bg-suit-plum/60 px-1 py-0.5 rounded">
                             {c.companyPartNm}
                           </span>
                         </div>
@@ -299,7 +299,7 @@ export const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ movieCd, onC
           </div>
 
           {/* Modal Footer */}
-          <div className="border-t border-gray-150 dark:border-white/5 bg-gray-50 dark:bg-cinema-card/50 px-6 py-4 flex justify-between items-center text-xs text-gray-400 dark:text-white/30">
+          <div className="border-t border-gray-150 dark:border-white/5 bg-gray-50 dark:bg-suit-plum/80 px-6 py-4 flex justify-between items-center text-xs text-gray-400 dark:text-suit-lavender/40">
             <span>영화코드: {movieCd}</span>
             <span>제공: 영화진흥위원회 통합전산망 (KOBIS)</span>
           </div>

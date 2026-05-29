@@ -122,7 +122,7 @@ export default function App() {
   }, [movieList, searchQuery]);
 
   return (
-    <div id="app-wrapper" className="min-h-screen bg-[#F9FBFC] dark:bg-cinema-black text-gray-950 dark:text-neutral-50 flex flex-col transition-colors duration-350">
+    <div id="app-wrapper" className="min-h-screen bg-[#FDFCFD] dark:bg-suit-plum text-gray-950 dark:text-suit-pink-white flex flex-col transition-colors duration-350">
       
       {/* 1. Interactive Navigation & Control Header */}
       <Header
@@ -138,20 +138,20 @@ export default function App() {
       />
 
       {/* 2. Main Dashboard Panel */}
-      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-12">
         
         {/* Quick Presets Section */}
         <div className="flex flex-wrap items-center gap-2 mb-6">
-          <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-white/30 font-display flex items-center gap-1">
+          <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-suit-lavender/30 font-display flex items-center gap-1">
             <Compass className="w-3.5 h-3.5" /> 빠른 기간 탐색:
           </span>
           <button
             id="preset-1"
             onClick={() => handleSelectPreset(1)}
-            className={`px-3 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
+            className={`px-3.5 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
               date === defaultYesterdayStr
-                ? "bg-gold-accent text-black shadow-md shadow-gold-accent/15"
-                : "bg-white dark:bg-cinema-gray text-gray-650 dark:text-white/50 border border-gray-200 dark:border-white/5 hover:bg-gray-55 dark:hover:bg-[#1E1E22]"
+                ? "bg-suit-rose-medium text-suit-plum shadow-md shadow-suit-rose-medium/20"
+                : "bg-white dark:bg-suit-plum/40 text-gray-650 dark:text-suit-lavender/50 border border-gray-200 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-suit-plum/80"
             }`}
           >
             어제
@@ -159,7 +159,7 @@ export default function App() {
           <button
             id="preset-7"
             onClick={() => handleSelectPreset(7)}
-            className={`px-3 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
+            className={`px-3.5 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
               // we can calculate 7 days ago string to highlight it if selected
               (() => {
                 const someDate = new Date();
@@ -167,8 +167,8 @@ export default function App() {
                 const formatD = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                 return date === formatD(someDate);
               })()
-                ? "bg-gold-accent text-black shadow-md shadow-gold-accent/15"
-                : "bg-white dark:bg-cinema-gray text-gray-650 dark:text-white/50 border border-gray-200 dark:border-white/5 hover:bg-gray-55 dark:hover:bg-[#1E1E22]"
+                ? "bg-suit-rose-medium text-suit-plum shadow-md shadow-suit-rose-medium/20"
+                : "bg-white dark:bg-suit-plum/40 text-gray-650 dark:text-suit-lavender/50 border border-gray-200 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-suit-plum/80"
             }`}
           >
             1주일 전
@@ -176,15 +176,15 @@ export default function App() {
           <button
             id="preset-30"
             onClick={() => handleSelectPreset(30)}
-            className={`px-3 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
+            className={`px-3.5 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
               (() => {
                 const someDate = new Date();
                 someDate.setDate(someDate.getDate() - 30);
                 const formatD = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                 return date === formatD(someDate);
               })()
-                ? "bg-gold-accent text-black shadow-md shadow-gold-accent/15"
-                : "bg-white dark:bg-cinema-gray text-gray-650 dark:text-white/50 border border-gray-200 dark:border-white/5 hover:bg-gray-55 dark:hover:bg-[#1E1E22]"
+                ? "bg-suit-rose-medium text-suit-plum shadow-md shadow-suit-rose-medium/20"
+                : "bg-white dark:bg-suit-plum/40 text-gray-650 dark:text-suit-lavender/50 border border-gray-200 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-suit-plum/80"
             }`}
           >
             1달 전
@@ -192,15 +192,15 @@ export default function App() {
           <button
             id="preset-365"
             onClick={() => handleSelectPreset(365)}
-            className={`px-3 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
+            className={`px-3.5 py-1 text-xs font-semibold rounded-full duration-250 transition-all cursor-pointer ${
               (() => {
                 const someDate = new Date();
                 someDate.setDate(someDate.getDate() - 365);
                 const formatD = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                 return date === formatD(someDate);
               })()
-                ? "bg-gold-accent text-black shadow-md shadow-gold-accent/15"
-                : "bg-white dark:bg-cinema-gray text-gray-650 dark:text-white/50 border border-gray-200 dark:border-white/5 hover:bg-gray-55 dark:hover:bg-[#1E1E22]"
+                ? "bg-suit-rose-medium text-suit-plum shadow-md shadow-suit-rose-medium/20"
+                : "bg-white dark:bg-suit-plum/40 text-gray-650 dark:text-suit-lavender/50 border border-gray-200 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-suit-plum/80"
             }`}
           >
             1년 전 (역대 박스오피스)
@@ -215,9 +215,9 @@ export default function App() {
           {loading ? (
             // Animated Elegant Page Spinner Loader
             <div className="flex flex-col items-center justify-center py-28 text-center">
-              <RefreshCw className="w-9 h-9 text-gold-accent animate-spin mb-4" />
-              <p className="text-sm font-semibold text-gray-500 dark:text-white/40">KOBIS 데이터베이스 실시간 조회 중...</p>
-              <p className="text-xs text-gray-400 dark:text-white/25 mt-1">영화진흥위원회 통합전산망 OpenAPI API 원격 통신 중</p>
+              <RefreshCw className="w-9 h-9 text-suit-rose-medium dark:text-suit-cyan animate-spin mb-4" />
+              <p className="text-sm font-semibold text-gray-500 dark:text-suit-lavender/50">KOBIS 데이터베이스 실시간 조회 중...</p>
+              <p className="text-xs text-gray-400 dark:text-suit-lavender/30 mt-1">영화진흥위원회 통합전산망 OpenAPI API 원격 통신 중</p>
             </div>
           ) : error ? (
             // Error Indicator
@@ -237,7 +237,7 @@ export default function App() {
             // Loaded Box Office List Items
             <div className="space-y-4">
               <div className="flex justify-between items-center px-1">
-                <span className="text-xs font-semibold text-gray-400 dark:text-white/30 font-mono">
+                <span className="text-xs font-semibold text-gray-400 dark:text-suit-lavender/30 font-mono">
                   조회결과: 일일 상위 {filteredMovieList.length}개 영화 정렬됨
                 </span>
                 
@@ -245,7 +245,7 @@ export default function App() {
                   <button
                     id="btn-clear-search"
                     onClick={() => setSearchQuery("")}
-                    className="text-xs text-gold-accent hover:text-gold-hover hover:underline font-bold"
+                    className="text-xs text-suit-rose-medium dark:text-suit-cyan hover:opacity-80 hover:underline font-bold cursor-pointer"
                   >
                     필터 초기화
                   </button>
@@ -264,10 +264,10 @@ export default function App() {
       </main>
 
       {/* 5. Cinematic Footer */}
-      <footer className="border-t border-gray-150 dark:border-white/5 bg-white dark:bg-cinema-gray py-6 text-center text-xs text-gray-500 dark:text-white/30 font-sans mt-auto transition-colors duration-350">
+      <footer className="border-t border-gray-150 dark:border-white/5 bg-[#FDFCFD] dark:bg-suit-plum/90 py-6 text-center text-xs text-gray-500 dark:text-suit-lavender/40 font-mono mt-auto transition-colors duration-350">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p>© 2026 KOBIS Insight. All Rights Reserved.</p>
-          <div className="flex gap-4 text-[11px] text-gray-400 dark:text-white/20">
+          <div className="flex gap-4 text-[11px] text-gray-400 dark:text-suit-lavender/25">
             <span>제공: 영화진흥위원회 (KOBIS) 통합전산망</span>
             <span>•</span>
             <span>보안 포트: 3000 (Proxy Enabled)</span>

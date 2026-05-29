@@ -33,30 +33,30 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({ movieList, selec
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       
       {/* Selected Date Card */}
-      <div className="bg-white dark:bg-cinema-gray p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-        <div className="p-3 bg-indigo-50 dark:bg-indigo-950/20 text-indigo-500 dark:text-indigo-400 rounded-xl">
+      <div className="bg-white dark:bg-suit-plum/50 p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+        <div className="p-3 bg-suit-lavender dark:bg-suit-plum text-suit-rose-medium dark:text-suit-cyan rounded-xl">
           <CalendarDays className="w-5.5 h-5.5" />
         </div>
         <div>
-          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-white/30 uppercase tracking-widest font-display">박스오피스 일자</p>
+          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-widest font-display">박스오피스 일자</p>
           <p className="text-sm font-bold text-gray-800 dark:text-neutral-100 mt-1">{formatKoreanDate(selectedDate)}</p>
-          <p className="text-[10px] text-gray-400 dark:text-white/20 mt-0.5">실시간 DB 동기화</p>
+          <p className="text-[10px] text-gray-400 dark:text-suit-rose-light/40 mt-0.5">실시간 DB 동기화</p>
         </div>
       </div>
 
       {/* Top Ranked Movie */}
-      <div className="bg-white dark:bg-cinema-gray p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ring-1 ring-transparent dark:hover:ring-gold-accent/20">
-        <div className="p-3 bg-gold-accent/10 text-gold-accent rounded-xl">
+      <div className="bg-white dark:bg-suit-plum/50 p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ring-1 ring-transparent dark:hover:ring-suit-cyan/20">
+        <div className="p-3 bg-suit-rose-light/20 text-suit-rose-medium dark:text-suit-cyan rounded-xl">
           <Award className="w-5.5 h-5.5" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-white/30 uppercase tracking-widest font-display">오늘의 1위 영화</p>
+          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-widest font-display">오늘의 1위 영화</p>
           <p className="text-sm font-bold text-gray-900 dark:text-neutral-100 mt-1 truncate" title={topMovie?.movieNm || "정보 없음"}>
             {topMovie ? topMovie.movieNm : "데이터 없음"}
           </p>
           {topMovie && (
-            <p className="text-[10px] text-gold-accent mt-0.5 font-bold flex items-center gap-1">
-              <TrendingUp className="w-3 h-3" />
+            <p className="text-[10px] text-suit-rose-medium dark:text-suit-cyan mt-0.5 font-bold flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 animate-pulse" />
               매출 점유율 {topMovie.salesShare}% 
             </p>
           )}
@@ -64,28 +64,28 @@ export const DashboardStats: React.FC<DashboardStatsProps> = ({ movieList, selec
       </div>
 
       {/* Total Audience Count */}
-      <div className="bg-white dark:bg-cinema-gray p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-        <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-500 dark:text-emerald-400 rounded-xl">
+      <div className="bg-white dark:bg-suit-plum/50 p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+        <div className="p-3 bg-suit-cyan/20 dark:bg-suit-cyan/10 text-suit-rose-medium dark:text-suit-cyan rounded-xl">
           <Users className="w-5.5 h-5.5" />
         </div>
         <div>
-          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-white/30 uppercase tracking-widest font-display">관객 수 (Top10)</p>
+          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-widest font-display">관객 수 (Top10)</p>
           <p className="text-lg font-bold text-gray-800 dark:text-neutral-100 mt-0.5">{totalAudi > 0 ? `${formatNum(totalAudi.toString())} 명` : "집계 중"}</p>
-          <p className="text-[10px] text-gray-400 dark:text-white/20 mt-0.5">상위 10개 실시간 합산</p>
+          <p className="text-[10px] text-gray-400 dark:text-suit-rose-light/40 mt-0.5">상위 10개 실시간 합산</p>
         </div>
       </div>
 
       {/* Total Sales Revenue */}
-      <div className="bg-white dark:bg-cinema-gray p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-        <div className="p-3 bg-amber-50 dark:bg-amber-950/20 text-amber-500 dark:text-amber-400 rounded-xl">
+      <div className="bg-white dark:bg-suit-plum/50 p-5 rounded-2xl border border-gray-150 dark:border-white/5 shadow-sm flex items-center gap-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+        <div className="p-3 bg-suit-lavender/50 dark:bg-suit-lavender/10 text-suit-rose-medium dark:text-suit-lavender rounded-xl">
           <Presentation className="w-5.5 h-5.5" />
         </div>
         <div>
-          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-white/30 uppercase tracking-widest font-display">누적 매출 (Top10)</p>
+          <p className="text-[10px] sm:text-xs font-bold text-gray-400 dark:text-suit-lavender/40 uppercase tracking-widest font-display">누적 매출 (Top10)</p>
           <p className="text-base sm:text-lg font-bold text-gray-800 dark:text-neutral-100 mt-0.5">
             {totalSales > 0 ? `₩${formatNum(totalSales.toString())}` : "집계 중"}
           </p>
-          <p className="text-[10px] text-gray-400 dark:text-white/20 mt-0.5">상위 10개 통합 매출액</p>
+          <p className="text-[10px] text-gray-400 dark:text-suit-rose-light/40 mt-0.5">상위 10개 통합 매출액</p>
         </div>
       </div>
 
