@@ -1,0 +1,6 @@
+{
+  "name": "일일 박스오피스",
+  "description": "일별 영화 박스오피스 순위를 조회하고 영화의 상세 정보와 통계를 확인할 수 있는 고품격 시각화 서비스입니다. (다크/라이트 모드 지원)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

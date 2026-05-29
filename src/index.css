@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Elegant Dark theme colors */
+  --color-cinema-black: #0F0F11;
+  --color-cinema-gray: #141417;
+  --color-cinema-card: #1E1E22;
+  --color-gold-accent: #E2B616;
+  --color-gold-hover: #FFD700;
+  --color-dark-border: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* Stunning custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(226, 182, 22, 0.2);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(226, 182, 22, 0.5);
+}
+
